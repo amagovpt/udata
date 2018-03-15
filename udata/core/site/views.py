@@ -57,6 +57,8 @@ def home():
         'recent_datasets': Dataset.objects.visible(),
         'recent_reuses': Reuse.objects(featured=True).visible(),
         'last_post': Post.objects(private=False).first(),
+        'banner_posts': Post.objects(private=False, tags='banner'),
+        'featured_post': Post.objects(private=False, tags='destaque').first(),         
         'rdf_links': [
             (RDF_MIME_TYPES[fmt],
              url_for('site.rdf_catalog_format', format=ext))
