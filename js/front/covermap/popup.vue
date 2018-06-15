@@ -1,5 +1,6 @@
 <template>
 <div class="territory-popup">
+    <img :src="logo" width="25px"/> 
     <b>{{feature.properties.name}}</b>
     <br/>
     <a :href="url">{{ _('n_datasets', {count: feature.properties.datasets}) }}</a>
@@ -20,6 +21,9 @@ export default {
     computed: {
         url() {
             return `/datasets?geozone=${this.feature.id}`;
+        },
+        logo() {
+            return this.feature.properties.logo;
         }
     }
 };

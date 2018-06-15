@@ -186,7 +186,8 @@ class SpatialCoverageAPI(API):
                     'name': _(zone.name),
                     'code': zone.code,
                     'level': zone.level,
-                    'datasets': nb_datasets
+                    'datasets': nb_datasets,
+                    'logo': zone.logo_url(external=True)
                 }
             })
 
