@@ -4,7 +4,7 @@
     <b>{{feature.properties.name}}</b>
     <br/>
     <a :href="url">{{ _('n_datasets', {count: feature.properties.datasets}) }}</a>
-    <a class="drill-down" v-for="child in children" @click.prevent="$dispatch('drillDown', child, bounds)">
+    <a class="drill-down" v-for="child in children" @click.prevent="$dispatch('drillDown', child, bounds, feature)">
         <span class="fa fa fa-arrow-circle-down"></span>
         {{ child.name }}
     </a>
