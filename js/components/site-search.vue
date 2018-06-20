@@ -113,7 +113,7 @@ export default {
             <img :src="item.image_url || placeholders.territory" class="avatar" width="30" height="30" alt="">
             </div>
             <p v-html="item.title | stripTags | highlight query"></p>
-            <small v-if="item.parent">{{ item.parent }}</small>`,
+            <small v-if="item.level">{{ item.level }}</small>`,
     },
     methods: {
         reset() {
