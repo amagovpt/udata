@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: udata\n"
 "Report-Msgid-Bugs-To: i18n@opendata.team\n"
 "POT-Creation-Date: 2018-06-05 18:02+0200\n"
-"PO-Revision-Date: 2018-06-08 10:31-0400\n"
+"PO-Revision-Date: 2018-07-25 13:41\n"
 "Last-Translator: noirbizarre <noirbizarre@gmail.com>\n"
 "Language: pt\n"
 "Language-Team: Portuguese\n"
@@ -370,7 +370,7 @@ msgstr "Três vezes por ano"
 
 #: udata/core/dataset/models.py:50
 msgid "Biannual"
-msgstr "Bianual"
+msgstr "Semestral"
 
 #: udata/core/dataset/models.py:51
 msgid "Annual"
@@ -1652,7 +1652,7 @@ msgstr "Conjuntos de dados utilizados"
 
 #: udata/templates/dataset/list.html:73 udata/templates/search.html:116
 msgid "No results found, try to be less specific."
-msgstr "Nenhum resultado encontrado, tente ser menos específico."
+msgstr "Sem resultados. Tente novamente utilizando outros termos."
 
 #: udata/templates/search.html:133 udata/templates/search.html:158
 #: udata/templates/search.html:185 udata/templates/topic/browse.html:34
@@ -1942,7 +1942,7 @@ msgstr "Pré-visualizar"
 
 #: udata/templates/dataset/resource/card.html:56
 msgid "Download"
-msgstr "Download"
+msgstr "Descarregar"
 
 #: udata/templates/dataset/resource/card.html:57
 msgid "Copy permalink to clipboard"

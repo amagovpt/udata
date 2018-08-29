@@ -8,7 +8,7 @@ from udata.mail import mail_sent
 
 from contextlib import contextmanager
 from datetime import timedelta
-from urlparse import urljoin, urlparse
+from urlparse import urljoin, urlparse, parse_qs
 
 from flask import request, url_for, json
 
@@ -115,7 +115,7 @@ def assert_redirects(response, location, message=None):
     if parts.netloc:
         expected_location = location
     else:
-        expected_location = urljoin('http://localhost', location)
+        expected_location = urljoin('http://local.test', location)
     not_redirect = REDIRECT_MSG.format(response.status_code)
     assert response.status_code in REDIRECT_CODES, message or not_redirect
     assert response.location == expected_location, message
@@ -203,3 +203,16 @@ def assert_command_ok(result):
     __tracebackhide__ = True
     msg = 'Command failed with exit code {0.exit_code} and output:\n{0.output}'
     assert result.exit_code == 0, msg.format(result)
+
+
+def assert_urls_equal(url1, url2):
+    __tracebackhide__ = True
+    p1 = urlparse(url1)
+    p2 = urlparse(url2)
+    assert p1.scheme == p2.scheme, 'Scheme does not match'
+    assert p1.netloc == p2.netloc, 'Network location does not match'
+    assert p1.path == p2.path, 'Path does not match'
+    q1 = parse_qs(p1.query)
+    q2 = parse_qs(p2.query)
+    assert q1 == q2, 'Query does not match'
+    assert p1.fragment == p2.fragment, 'Fragment does not match'

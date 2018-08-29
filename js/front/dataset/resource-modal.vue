@@ -10,15 +10,15 @@
           <dt>{{ _('Latest URL') }}</dt>
           <dd><a :href="resource.latest" @click="onClick">{{resource.latest}}</a></dd>
           <dt v-if="resourceType">{{ _('Type') }}</dt>
-          <dd v-if="resourceType">{{ resourceType }}</dd>
+          <dd v-if="resourceType">{{ resourceType.label }}</dd>
           <dt v-if="resource.format">{{ _('Format') }}</dt>
           <dd v-if="resource.format">{{resource.format}}</dd>
           <dt v-if="resource.mime">{{ _('MimeType') }}</dt>
           <dd v-if="resource.mime">{{resource.mime}}</dd>
           <dt v-if="resource.filesize">{{ _('Size') }}</dt>
           <dd v-if="resource.filesize">{{ resource.filesize|size }}</dd>
-          <dt v-if="resource.checksum">{{ resource.checksumType || 'sha1'}}</dt>
-          <dd v-if="resource.checksum">{{ resource.checksum }}</dd>
+          <dt v-if="checksum">{{ checksum.type || 'sha1'}}</dt>
+          <dd v-if="checksum">{{ checksum.value }}</dd>
           <dt v-if="resource.created_at">{{ _('Created on') }}</dt>
           <dd v-if="resource.created_at"> {{ resource.created_at|dt }}</dd>
           <dt v-if="resource.modified">{{ _('Modified on') }}</dt>
@@ -48,8 +48,6 @@
 import Availability from './resource/availability.vue';
 import Modal from 'components/modal.vue';
 import pubsub from 'pubsub';
-import Resource from 'models/resource';
-import resource_types from 'models/resource_types';
 
 export default {
     props: {
@@ -69,7 +67,14 @@ export default {
     components: {Modal, Availability},
     data() {
         return {
-            resourceType: undefined,
+            types: [],
+            checksum: undefined,
+        }
+    },
+    computed: {
+        resourceType() {
+            if (!this.resource || !this.types) return;
+            return this.types.find(o => o.id == this.resource.type);
         }
     },
     created() {
@@ -78,15 +83,10 @@ export default {
             `datasets/${this.datasetId}/resources/${this.resource.id}/`;
         this.$api.get(url).then(resource => {
             Object.assign(this.resource, resource);
+            this.checksum = resource.checksum;
         });
-        // ensure this will be filled both on open from dataset page and direct open (deeplink)
-        if (resource_types.has_data) {
-            this.fillResourceType();
-        } else {
-            resource_types.$on('updated', (res) => {
-                this.fillResourceType();
-            });
-        }
+
+        this.$api.get('datasets/resource_types/').then(types => this.types = types);
     },
     methods: {
         onClick() {
@@ -98,12 +98,7 @@ export default {
             }
             pubsub.publish(eventName);
             this.$refs.modal.close();
-        },
-        fillResourceType() {
-            if (this.resource.type) {
-                this.resourceType = resource_types.by_id(this.resource.type).label;
-            }
-        },
+        }
     }
 };
 </script>

@@ -9,20 +9,19 @@ from uuid import uuid4
 
 from flask import url_for
 
-from udata.models import (
-    CommunityResource, Dataset, Follow, Member, UPDATE_FREQUENCIES,
-    LEGACY_FREQUENCIES, RESOURCE_TYPES
-)
-
 from . import APITestCase
 
 from udata.core.dataset.factories import (
     DatasetFactory, VisibleDatasetFactory, CommunityResourceFactory,
     LicenseFactory, ResourceFactory)
-from udata.core.dataset.models import RESOURCE_FILETYPE_FILE
+from udata.core.dataset.models import RESOURCE_FILETYPE_FILE, ResourceMixin
 from udata.core.user.factories import UserFactory, AdminFactory
 from udata.core.badges.factories import badge_factory
 from udata.core.organization.factories import OrganizationFactory
+from udata.models import (
+    CommunityResource, Dataset, Follow, Member, UPDATE_FREQUENCIES,
+    LEGACY_FREQUENCIES, RESOURCE_TYPES, db
+)
 from udata.tags import MIN_TAG_LENGTH, MAX_TAG_LENGTH
 from udata.utils import unique_string, faker
 
@@ -322,9 +321,9 @@ class DatasetAPITest(APITestCase):
         response = self.put(url_for('api.dataset', dataset=dataset), data)
         self.assert200(response)
         dataset.reload()
-        resource = (
+        resource = next((
             r for r in dataset.resources if r.title == resource_data['title']
-        ).next()
+        ))
         self.assertEqual(resource.extras, {'extra:id': 'id'})
 
     def test_dataset_api_update_existing_resource_with_extras(self):
@@ -733,7 +732,13 @@ class DatasetResourceAPITest(APITestCase):
         self.assert201(response)
 
     def test_reorder(self):
+        # Register an extra field in order to test
+        # https://github.com/opendatateam/udata/issues/1794
+        ResourceMixin.extras.register('my:register', db.BooleanField)
         self.dataset.resources = ResourceFactory.build_batch(3)
+        self.dataset.resources[0].extras = {
+            'my:register': True,
+        }
         self.dataset.save()
         self.dataset.reload()  # Otherwise `last_modified` date is inaccurate.
         initial_last_modified = self.dataset.last_modified

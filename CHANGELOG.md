@@ -1,5 +1,63 @@
 # Changelog
 
+## 1.5.3 (2018-08-27)
+
+- Prevent UnicodeError on unicode URL validation error [#1844](https://github.com/opendatateam/udata/pull/1844)
+- Hide save button in "Add resource" modal until form is visible (and prevent error) [#1846](https://github.com/opendatateam/udata/pull/1846)
+- The purge chunks tasks also remove the directory [#1845](https://github.com/opendatateam/udata/pull/1845)
+- Upgrade to latest Fine-Uploader version to benefit from bug fixes [#1849](https://github.com/opendatateam/udata/pull/1849)
+- Prevent front views from downloading `swagger.json` [#1838](https://github.com/opendatateam/udata/pull/1838)
+- Ensure API docs works without data [#1840](https://github.com/opendatateam/udata/pull/1840)
+- Expose the default spatial granularity in API specs [#1841](https://github.com/opendatateam/udata/pull/1841)
+- Fix missing dataset title on client-side card listing [#1834](https://github.com/opendatateam/udata/pull/1834)
+- Allows to clear the dataset form temporal coverage. [#1832](https://github.com/opendatateam/udata/pull/1832)
+- Ensure that admin notifications are displayed once and with a constant width. [#1831](https://github.com/opendatateam/udata/pull/1831)
+- Fix broken date range picker date parsing (ie. manual keyboard input) [#1863](https://github.com/opendatateam/udata/pull/1853)
+- Normalize uploaded filenames to avoid encoding issues, filesystem incompatibilities... [#1852](https://github.com/opendatateam/udata/pull/1852)
+
+## 1.5.2 (2018-08-08)
+
+- Fix client-side temporal coverage rendering [#1821](https://github.com/opendatateam/udata/pull/1821)
+- Prevent word breaking when wrapping discussions messages [#1822](https://github.com/opendatateam/udata/pull/1822)
+- Properly render message content on issues and discussions mails [#1823](https://github.com/opendatateam/udata/pull/1823)
+
+## 1.5.1 (2018-08-03)
+
+- Ensure OEmbed compatibility with external CDN [#1815](https://github.com/opendatateam/udata/pull/1815)
+- Fixes some static URL serialization [#1815](https://github.com/opendatateam/udata/pull/1815)
+
+## 1.5.0 (2018-07-30)
+
+### New features
+
+- Slugs are now redirected on change when changed until old slug are free [#1771](https://github.com/opendatateam/udata/pull/1771)
+- Improve usability of new organization form [#1777](https://github.com/opendatateam/udata/pull/1777)
+- Allows to serve assets on an external CDN domain using `CDN_DOMAIN` [#1804](https://github.com/opendatateam/udata/pull/1804)
+
+### Breaking changes
+
+None
+
+### Bug fixes and minor changes
+
+- Sort dataset update frequencies by ascending frequency [#1758](https://github.com/opendatateam/udata/pull/1758)
+- Skip gov.uk references tests when site is unreachable [#1767](https://github.com/opendatateam/udata/pull/1767)
+- Fix resources reorder (registered extras validation logic) [#1796](https://github.com/opendatateam/udata/pull/1796)
+- Fix checksum display on resource modal [#1797](https://github.com/opendatateam/udata/pull/1797)
+- Use metrics.views on resource card [#1778](https://github.com/opendatateam/udata/pull/1778)
+- Fix dataset collapse on ie11 [#1802](https://github.com/opendatateam/udata/pull/1802)
+- Upgrade i18next (security) [#1803](https://github.com/opendatateam/udata/pull/1803)
+
+### Internals
+
+- Backports some Python 3 forward compatible changes and fixes some bugs [#1769](https://github.com/opendatateam/udata/pull/1769):
+    - avoid `filter` and `map` usage instead of list comprehension
+    - explicit encoding handling
+    - avoid comparison to `None`
+    - use `next()` instead of `.next()` to iterate
+    - unhide some implicit casts (in particular search weight)
+- Tests are now run against `local.test` instead of `localhost` to avoid pytest warnings
+
 ## 1.4.1 (2018-06-15)
 
 - Fix community resource creation and display [#1733](https://github.com/opendatateam/udata/pull/1733)

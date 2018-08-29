@@ -307,6 +307,12 @@ class Defaults(object):
     MAP_INITIAL_ZOOM = 4
     # Initial map territory level
     MAP_INITIAL_LEVEL = 0
+    # Flask-CDN options
+    # See: https://github.com/libwilliam/flask-cdn#flask-cdn-options
+    # If this value is defined, toggle static assets on external domain
+    CDN_DOMAIN = None
+    # Don't check timestamp on assets (and avoid error on missing assets)
+    CDN_TIMESTAMP = False
 
 
 class Testing(object):
@@ -323,14 +329,16 @@ class Testing(object):
     CACHE_TYPE = 'null'
     CACHE_NO_NULL_WARNING = True
     DEBUG_TOOLBAR = False
-    SERVER_NAME = 'localhost'
+    SERVER_NAME = 'local.test'
     DEFAULT_LANGUAGE = 'en'
     ACTIVATE_TERRITORIES = False
     LOGGER_HANDLER_POLICY = 'never'
     CELERYD_HIJACK_ROOT_LOGGER = False
     USE_METRICS = False
     RESOURCES_FILE_ALLOWED_DOMAINS = ['*']
-    URLS_ALLOW_LOCAL = True  # Test server URL is localhost
+    URLS_ALLOW_LOCAL = True  # Test server URL is local.test
+    URLS_ALLOWED_TLDS = tld_set | set(['test'])
+    URLS_ALLOW_PRIVATE = False
 
 
 class Debug(Defaults):
