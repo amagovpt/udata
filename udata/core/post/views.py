@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from flask import current_app
+from flask import current_app, request
 
 from udata import theme
 from udata.frontend.views import ListView
@@ -38,6 +38,9 @@ class PostListView(ListView):
         return current_app.config['POST_DEFAULT_PAGINATION']
 
     def get_queryset(self):
+        tag = request.args.get('tag')
+        if tag:
+            return Post.objects(private=False, tags=tag).order_by('-created_at').paginate(self.page, self.page_size)
         return Post.objects(private=False).order_by('-created_at').paginate(self.page, self.page_size)
 
 
