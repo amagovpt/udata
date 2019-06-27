@@ -67,12 +67,10 @@ LEGACY_FREQUENCIES = {
 DEFAULT_FREQUENCY = 'unknown'
 
 DEFAULT_LICENSE = {
-    'id': 'notspecified',
-    'title': "License Not Specified",
-    'flags': ["generic"],
-    'maintainer': None,
-    'url': None,
-    'active': True,
+    "id": "cc-by",
+    "maintainer": None,
+    "title": "Creative Commons Attribution 4.0 - CC BY 4.0",
+    "url": "https://creativecommons.org/licenses/by/4.0/"
 }
 
 RESOURCE_TYPES = OrderedDict([

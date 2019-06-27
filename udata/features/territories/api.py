@@ -25,6 +25,7 @@ class SuggestTerritoriesAPI(API):
         return [{
             'id': territory.id,
             'title': territory.name,
+            'level': territory.level.split(':')[1].title(), 
             'image_url': territory.logo_url(external=True),
             'parent': (territory.current_parent and
                        territory.current_parent.name or None),
