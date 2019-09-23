@@ -130,7 +130,7 @@ class GeoZone(db.Document):
         elif blazon_filename and self.blazon.fs.exists(blazon_filename):
             return self.blazon.fs.url(blazon_filename, external=external)
         else:
-            return ''
+            return self.dbpedia
 
     @property
     def keys_values(self):
