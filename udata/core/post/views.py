@@ -35,7 +35,10 @@ class PostListView(ListView):
         return current_app.config['POST_DEFAULT_PAGINATION']
 
     def get_queryset(self):
-        return Post.objects.published().paginate(self.page, self.page_size)
+        tag = request.args.get('tag')
+        if tag:
+            return Post.objects(tags=tag).published().order_by('-created_at').paginate(self.page, self.page_size)
+        return Post.objects.published().order_by('-created_at').paginate(self.page, self.page_size)
 
 
 @blueprint.route('/<post:post>/')

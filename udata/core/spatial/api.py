@@ -91,12 +91,23 @@ class ZoneChildrenAPI(API):
     @api.marshal_list_with(feature_collection_fields)
     def get(self, id):
         '''Fetch children of a zone.'''
-        zone = GeoZone.objects.get_or_404(id=id)
+        zones = GeoZone.objects.get_or_404(id=id)
+
+        features = []
+        for zone in zones.children:
+            # fetch nested levels IDs
+            ids = GeoZone.objects(parents=zone.id).only('id').distinct('id')
+            ids.append(zone.id)
+            # Count datasets in zone
+            nb_datasets = Dataset.objects(spatial__zones__in=ids).count()
+            zone_geoJSON = zone.toGeoJSON()
+            zone_geoJSON['properties']['datasets'] = nb_datasets
+            features.append(zone_geoJSON)
         if not current_app.config.get('ACTIVATE_TERRITORIES'):
             return abort(501)
         return {
             'type': 'FeatureCollection',
-            'features': [z.toGeoJSON() for z in zone.children]
+            'features': features
         }
 
 
@@ -183,7 +194,8 @@ class SpatialCoverageAPI(API):
                     'name': _(zone.name),
                     'code': zone.code,
                     'level': zone.level,
-                    'datasets': nb_datasets
+                    'datasets': nb_datasets,
+                    'logo': zone.logo_url(external=True)
                 }
             })
 

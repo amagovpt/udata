@@ -124,7 +124,7 @@ class DatasetSearch(ModelSearchAdapter):
     }
 
     facets = {
-        'tag': TermsFacet(field='tags'),
+        'tag': TermsFacet(field='tags', size='20'),
         'badge': TermsFacet(field='badges', labelizer=dataset_badge_labelizer),
         'organization': ModelTermsFacet(field='organization',
                                         model=Organization),
@@ -134,9 +134,9 @@ class DatasetSearch(ModelSearchAdapter):
                                    labelizer=zone_labelizer),
         'granularity': TermsFacet(field='granularity',
                                   labelizer=granularity_labelizer),
-        'format': TermsFacet(field='resources.format'),
         'resource_type': TermsFacet(field='resources.type',
                                     labelizer=resource_type_labelizer),
+        'format': TermsFacet(field='resources.format', size='20'),
         'reuses': RangeFacet(field='metrics.reuses',
                              ranges=[('none', (None, 1)),
                                      ('few', (1, 5)),

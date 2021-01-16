@@ -57,9 +57,12 @@ new Vue({
         }
     },
     events: {
-        drillDown(level, bounds) {
+        drillDown(level, bounds, feature) {
             this.bounds = bounds;
             this.map.fitBounds(bounds);
+            level.dataUrl = `spatial/zone/${feature.id}/children`;
+            level.layer.id = feature.id;
+            level.layer.loaded = false;
             this.switchLevel(level);
         }
     },
@@ -76,6 +79,7 @@ new Vue({
                 level.dataUrl = `spatial/coverage/${level.id}`;
                 level.layer = L.geoJson(null, {style: this.style, onEachFeature: this.onEachFeature});
 
+                level.layer.id = level.name
                 level.layer.level = level;
                 layers[level.name] = level.layer;
                 return level;

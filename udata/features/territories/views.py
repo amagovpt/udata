@@ -95,6 +95,7 @@ def render_territory(territory):
     if not current_app.config.get('ACTIVATE_TERRITORIES'):
         return abort(404)
 
+    return redirect(url_for('datasets.list', geozone=territory))
     is_present_territory = territory.valid_at(date.today())
 
     # Retrieve the present territory if not presently valid.
